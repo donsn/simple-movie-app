@@ -18,6 +18,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Humanizer.Core" Version="2.14.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +33,7 @@
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="Data\API\" />
     <None Remove="Data\API\Models\" />
+    <None Remove="Humanizer.Core" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
