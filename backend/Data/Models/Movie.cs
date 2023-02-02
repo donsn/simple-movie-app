@@ -37,10 +37,16 @@ namespace MovieMaster.Data.Models
 		/// Genre
 		/// </summary>
 		public List<Genre> Genres { get; set; } = new List<Genre>();
+
 		/// <summary>
-		/// Image of the movie
+		/// Movie Comments
 		/// </summary>
-		public string Photo { get; set; } = default!;
+		public List<Comment> Comments { get; set; } = new List<Comment>();
+
+        /// <summary>
+        /// Image of the movie
+        /// </summary>
+        public string Photo { get; set; } = default!;
 	}
 
 }

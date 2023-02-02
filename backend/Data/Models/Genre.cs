@@ -12,6 +12,10 @@ namespace MovieMaster.Data.Models
 		/// Name Of Genre
 		/// </summary>
 		public string Name { get; set; } = default!;
+		/// <summary>
+		/// Movies in this genre
+		/// </summary>
+		public List<Movie> Movies { get; set; } = default!;
 	}
 }
 

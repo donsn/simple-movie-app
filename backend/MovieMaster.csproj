@@ -21,14 +21,14 @@
     <None Remove="Data\Database\" />
     <None Remove="Data\Models\Base\" />
     <None Remove="Microsoft.EntityFrameworkCore" />
-    <None Remove="Data\Database\Models\" />
     <None Remove="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <None Remove="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Data\Models\" />
     <Folder Include="Data\Database\" />
     <Folder Include="Data\Models\Base\" />
-    <Folder Include="Data\Database\Models\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

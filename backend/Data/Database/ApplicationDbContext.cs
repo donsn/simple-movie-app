@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using MovieMaster.Data.Database.Models;
 using MovieMaster.Data.Models;
 
 namespace MovieMaster.Data.Database
@@ -13,55 +12,44 @@ namespace MovieMaster.Data.Database
 
         }
 
-        public DbSet<DbMovie> Movies { get; set; }
+        public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<DbGenre> Genres { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
-        public DbSet<DbUser> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public DbSet<DbComment> Comments { get; set; }
-
-        public DbSet<MovieGenre> MovieGenres { get; set; }
-
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DbMovie>(x =>
+            modelBuilder.Entity<Movie>(x =>
             {
                 x.HasKey(p => p.Id);
                 x.Property(p => p.Name).IsRequired();
                 x.HasIndex(x => x.Name);
-                x.HasMany<MovieGenre>().WithOne().HasForeignKey(x => x.MovieId).OnDelete(DeleteBehavior.Cascade);
-                x.Property(x => x.LastModified).ValueGeneratedOnAddOrUpdate();
-
-            });
-
-            modelBuilder.Entity<DbGenre>(x =>
-            {
-                x.HasKey(p => p.Id);
-                x.HasIndex(x => x.Name);
-                x.HasMany<MovieGenre>().WithOne().HasForeignKey(x => x.GenreId).OnDelete(DeleteBehavior.Cascade);
+                x.HasMany(x=> x.Genres).WithMany(x=> x.Movies);
+                x.HasMany(x => x.Comments).WithOne(x => x.Movie);
                 x.Property(x => x.LastModified).ValueGeneratedOnAddOrUpdate();
             });
 
-            modelBuilder.Entity<DbComment>(x =>
+            modelBuilder.Entity<Genre>(x =>
             {
                 x.HasKey(p => p.Id);
                 x.HasIndex(x => x.Name);
-                x.HasOne<DbMovie>().WithMany().HasForeignKey(f => f.MovieId);
-
+                x.Property(x => x.LastModified).ValueGeneratedOnAddOrUpdate();
             });
 
-            modelBuilder.Entity<DbUser>(x =>
+            modelBuilder.Entity<Comment>(x =>
+            {
+                x.HasKey(p => p.Id);
+                x.HasIndex(x => x.Name);
+            });
+
+            modelBuilder.Entity<User>(x =>
             {
                 x.HasKey(p => p.Id);
                 x.HasIndex(x => x.Username);
 
-            });
-
-            modelBuilder.Entity<MovieGenre>(x =>
-            {
-                x.HasKey(p => new { p.GenreId, p.MovieId });
             });
 
             base.OnModelCreating(modelBuilder);
