@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using MovieMaster.Data;
 using MovieMaster.Data.Database;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -20,6 +21,22 @@ namespace Microsoft.Extensions.DependencyInjection
 			});
 			return services;
 		}
-	}
+
+		/// <summary>
+		/// Adds the necessary services to the build
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <returns></returns>
+        public static IApplicationBuilder UseMovieApp(this IApplicationBuilder builder)
+        {
+            builder.UseAuthentication();
+            builder.UseAuthorization();
+            builder.UseHttpsRedirection();
+
+            InitializeDB.RunAsync(builder.ApplicationServices).Wait();
+
+            return builder;
+        }
+    }
 }
 

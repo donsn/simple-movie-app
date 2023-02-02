@@ -17,10 +17,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseMovieApp();
 app.MapControllers();
 
 app.Run();
