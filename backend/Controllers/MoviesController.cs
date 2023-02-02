@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Models;
@@ -62,10 +63,12 @@ namespace MovieMaster.Controllers
             return Ok(await movieManager.AddNewMovieAsync(model));
         }
 
+        // You must be signed in to post a comment
         /// <summary>
         /// Adds a comment to a movie
         /// </summary>
         /// <param name="model"></param>
+        [Authorize] 
         [HttpPost("{id}")]
         public async Task<ActionResult<ApiResponse<bool>>> PostAsync(Guid id, [FromBody] Comment model)
         {
