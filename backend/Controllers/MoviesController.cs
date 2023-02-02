@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Models;
+using MovieMaster.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,14 +14,31 @@ namespace MovieMaster.Controllers
     [Route("api/[controller]")]
     public class MoviesController : Controller
     {
+        private readonly IMovieManagerService movieManager;
+
+        public MoviesController(IMovieManagerService movieManager)
+        {
+            this.movieManager = movieManager;
+        }
+
         /// <summary>
         /// Gets all movies
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Movie> Get()
+        public async Task<IEnumerable<Movie>> GetAsync()
         {
-            return Enumerable.Empty<Movie>();
+            return await movieManager.GetAllMoviesAsync();
+        }
+
+        /// <summary>
+        /// Gets all movie genres
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Genres")]
+        public async Task<IEnumerable<Genre>> GetGenresAsync()
+        {
+            return await movieManager.GetAllMovieGenresAsync();
         }
 
         /// <summary>
@@ -28,10 +46,10 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="slug"></param>
         /// <returns></returns>
-        [HttpGet("{slug}")]
-        public Movie Get(string slug)
+        [HttpGet("f/{slug}")]
+        public async Task<Movie> GetAsync(string slug)
         {
-            return new Movie { };
+            return await movieManager.GetMovieBySlugAsync(slug);
         }
 
         /// <summary>
@@ -39,9 +57,9 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost]
-        public ActionResult<ApiResponse<Movie>> Post([FromBody] Movie model)
+        public async Task<ActionResult<ApiResponse<Movie>>> PostAsync([FromBody] Movie model)
         {
-            return Ok();
+            return Ok(await movieManager.AddNewMovieAsync(model));
         }
 
         /// <summary>
@@ -49,9 +67,9 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost("{id}")]
-        public void Post(Guid id, [FromBody] Comment model)
+        public async Task<ActionResult<ApiResponse<bool>>> PostAsync(Guid id, [FromBody] Comment model)
         {
-
+            return Ok(await movieManager.AddMovieCommentAsync(id, model));
         }
     }
 }
