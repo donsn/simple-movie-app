@@ -15,6 +15,11 @@ namespace MovieMaster.Services
         {
 
         }
+
+        public void GetUserByUsernameAsync(string username)
+        {
+
+        }
     }
 }
 

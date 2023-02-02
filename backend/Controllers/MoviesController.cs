@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -38,8 +39,9 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost]
-        public void Post([FromBody] Movie model)
+        public ActionResult<ApiResponse<Movie>> Post([FromBody] Movie model)
         {
+            return Ok();
         }
 
         /// <summary>
