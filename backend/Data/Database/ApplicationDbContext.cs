@@ -19,6 +19,7 @@ namespace MovieMaster.Data.Database
         public DbSet<User> Users { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+        public Task<bool> AnyAsync { get; internal set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
