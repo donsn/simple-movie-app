@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Models;
+using MovieMaster.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,14 +15,22 @@ namespace MovieMaster.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
+        private readonly IUserManagementService userManager;
+
+        public UserController(IUserManagementService userManager)
+        {
+            this.userManager = userManager;
+        }
+
         /// <summary>
         /// Gets the current user's profile
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<User> Get()
+        [Authorize]
+        public async Task<ActionResult<User>> GetAsync()
         {
-            return Ok();
+            return Ok(await userManager.GetUserByUsernameAsync(User.Identity!.Name!));
         }
 
         /// <summary>
@@ -29,9 +39,9 @@ namespace MovieMaster.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("Login")]
-        public ActionResult<TokenModel> Login([FromBody]LoginModel model)
+        public async Task<ActionResult<TokenModel>> LoginAsync([FromBody]LoginModel model)
         {
-            return Ok();
+            return Ok( await userManager.LoginUserAsync(model.Username, model.Password ));
         }
         /// <summary>
         /// Creates a new user
@@ -39,9 +49,9 @@ namespace MovieMaster.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult<ApiResponse<User>> Post([FromBody] User user)
+        public async Task<ActionResult<ApiResponse<User>>> PostAsync([FromBody] User user)
         {
-            return Ok();
+            return Ok(await userManager.AddUserAsync(user));
         }
     }
 }

@@ -18,6 +18,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +35,9 @@
     <None Remove="Data\API\" />
     <None Remove="Data\API\Models\" />
     <None Remove="Humanizer.Core" />
+    <None Remove="Tools\" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -43,5 +48,6 @@
     <Folder Include="Services\" />
     <Folder Include="Data\API\" />
     <Folder Include="Data\API\Models\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
 </Project>
