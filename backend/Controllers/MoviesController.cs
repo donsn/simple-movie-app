@@ -12,7 +12,10 @@ namespace MovieMaster.Controllers
     [Route("api/[controller]")]
     public class MoviesController : Controller
     {
-        // GET: api/values
+        /// <summary>
+        /// Gets all movies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<Movie> Get()
         {
@@ -35,21 +38,19 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost]
-        public void Post([FromBody]Movie model)
+        public void Post([FromBody] Movie model)
         {
         }
 
-        //// PUT api/values/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        /// <summary>
+        /// Adds a comment to a movie
+        /// </summary>
+        /// <param name="model"></param>
+        [HttpPost("{id}")]
+        public void Post(Guid id, [FromBody] Comment model)
+        {
 
-        //// DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        }
     }
 }
 

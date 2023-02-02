@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MovieMaster.Data;
 using MovieMaster.Data.Database;
+using MovieMaster.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -19,7 +20,10 @@ namespace Microsoft.Extensions.DependencyInjection
 			{
 				options.UseNpgsql(configuration["DATABASE_URL"]);
 			});
-			return services;
+
+			services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<IMovieManagerService, MovieManagerService>();
+            return services;
 		}
 
 		/// <summary>
