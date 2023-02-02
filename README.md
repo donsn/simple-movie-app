@@ -13,7 +13,7 @@ You will need the following installed on your machine:
 
 ### Database
 1. Create a database named `movies`
-2. Set the `DATABASE_URL` environment variable to the connection string for the database in the following format: `postgres://username:password@host:port/database-name`. Use user-secrets or appsettings.json to set this variable in the `backend` project.
+2. Set the `DATABASE_URL` environment variable to the connection string for the database in the following format: `Host=myserver;Username=mylogin;Password=mypass;Database=mydatabase`. Use user-secrets or appsettings.json to set this variable in the `backend` project.
 
 ### Installing
 1. Clone the repository
