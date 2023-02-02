@@ -1,15 +1,17 @@
 ﻿using System;
+using MovieMaster.Data.Models;
+
 namespace MovieMaster.Services
 {
 	public class UserManagementService : IUserManagementService
 	{
 
-        public void AddUserAsync(string slug)
+        public void AddUserAsync(User user)
         {
 
         }
 
-        public void LoginUserAsync(string slug)
+        public void LoginUserAsync(string username, string password)
         {
 
         }
