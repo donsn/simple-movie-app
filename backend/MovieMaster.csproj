@@ -30,6 +30,8 @@
     <None Remove="Extensions\" />
     <None Remove="Services\" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
+    <None Remove="Data\API\" />
+    <None Remove="Data\API\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -38,5 +40,7 @@
     <Folder Include="Data\Models\Base\" />
     <Folder Include="Extensions\" />
     <Folder Include="Services\" />
+    <Folder Include="Data\API\" />
+    <Folder Include="Data\API\Models\" />
   </ItemGroup>
 </Project>
