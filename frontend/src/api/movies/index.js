@@ -1,9 +1,21 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {BASE_URL} from '../base';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { retrieveContent } from '../../utilities/storage';
+import { BASE_URL } from '../base';
 
 export const moviesApi = createApi({
     reducerPath: 'moviesApi',
-    baseQuery: fetchBaseQuery({baseUrl: BASE_URL}),
+    baseQuery: fetchBaseQuery({
+        baseUrl: BASE_URL,
+        prepareHeaders: (headers) => {
+            const access_token = retrieveContent("x_token");
+            headers.set("content-type", "application/json");
+            if (access_token) {
+                headers.set("authorization", `Bearer ${access_token}`);
+                headers.set("Access-Control-Allow-Origin", "*");
+            }
+            return headers;
+        }
+    }),
     endpoints: (builder) => ({
         createMovie: builder.mutation({
             query: (movie) => ({
