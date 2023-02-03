@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { slugify } from '../../utilities/slugify';
+import Rating from '../rating';
 
 export default function SmallMovieView() {
   return (
@@ -9,6 +10,7 @@ export default function SmallMovieView() {
       <p>Movie Description</p>
       <img src="https://via.placeholder.com/300x450" alt="Movie Poster" />
       <p>Released: {new Date().getFullYear()}</p>
+      <Rating rating={3}/>
     </Link>
   );
 }
