@@ -11,7 +11,6 @@ export const moviesApi = createApi({
             headers.set("content-type", "application/json");
             if (access_token) {
                 headers.set("authorization", `Bearer ${access_token}`);
-                headers.set("Access-Control-Allow-Origin", "*");
             }
             return headers;
         }
