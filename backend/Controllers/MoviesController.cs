@@ -47,7 +47,7 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="slug"></param>
         /// <returns></returns>
-        [HttpGet("f/{slug}")]
+        [HttpGet("Slug/{slug}")]
         public async Task<Movie> GetAsync(string slug)
         {
             return await movieManager.GetMovieBySlugAsync(slug);
@@ -69,7 +69,7 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [Authorize] 
-        [HttpPost("{id}")]
+        [HttpPost("{id}/Comment")]
         public async Task<ActionResult<ApiResponse<bool>>> PostAsync(Guid id, [FromBody] Comment model)
         {
             return Ok(await movieManager.AddMovieCommentAsync(id, model));
