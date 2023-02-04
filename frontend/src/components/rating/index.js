@@ -13,7 +13,7 @@ export default function Rating({ rating }) {
             <br/>
             {
                 Array.from({ length: rating }, (_, i) => (
-                    <span class="material-symbols-outlined" key={i}>
+                    <span className="material-symbols-outlined" key={i}>
                         star_rate
                     </span>
                 ))
