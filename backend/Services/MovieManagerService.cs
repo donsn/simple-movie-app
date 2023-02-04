@@ -20,6 +20,59 @@ namespace MovieMaster.Services
         }
 
         /// <summary>
+        /// Uploads a movie poster
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public async Task<ApiResponse<string>> AddMoviePosterAsync(IFormFile file)
+        {
+            try
+            {
+                if (file is null)
+                {
+                    return new ApiResponse<string>(default!)
+                    {
+                        Message = "Photo cannot be absent"
+                    };
+                }
+
+                if (file.Length > 0)
+                {
+                    var extension = Path.GetExtension(file.FileName).ToLower().Trim();
+                    var filename = Path.GetRandomFileName().Replace(".", "") + extension;
+                    var folder = Path.Combine(environment.WebRootPath, "images", filename);
+
+                    var filestream = new FileStream(folder, FileMode.Create);
+                    await file.CopyToAsync(filestream);
+
+                    return new ApiResponse<string>(filename)
+                    {
+                        Message = "Success"
+                    };
+                }
+                else
+                {
+                    return new ApiResponse<string>(default!)
+                    {
+                        Message = "Empty file"
+                    };
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unable to upload poster");
+            }
+
+            return new ApiResponse<string>(default!)
+            {
+                Message = "Couldn't upload movie poster"
+            };
+        }
+
+        /// <summary>
         /// Adds a new movie by uploading the file to wwwroot/images
         /// </summary>
         /// <param name="movie"></param>

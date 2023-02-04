@@ -7,6 +7,12 @@ namespace MovieMaster.Services
 	public interface IMovieManagerService
 	{
         /// <summary>
+        /// Uploads a movie poster
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        Task<ApiResponse<string>> AddMoviePosterAsync(IFormFile file);
+        /// <summary>
         /// Adds a new movie by uploading the file to wwwroot/images
         /// </summary>
         /// <param name="movie"></param>

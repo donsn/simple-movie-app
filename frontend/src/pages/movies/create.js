@@ -1,6 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FlexContainer, Form } from './styles';
-import { useGetMovieGenresQuery, useCreateMovieMutation } from '../../api/movies';
+import { useGetMovieGenresQuery, useCreateMovieMutation, useUploadMoviePhotoMutation } from '../../api/movies';
 import { HashLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import { CountryInput, InputField, MultiSelect, transformOutput } from '../../components/inputs';
@@ -13,29 +14,36 @@ import { slugify } from '../../utilities/slugify';
 export default function CreateMoviePage() {
   const { data: genres, loading: genresIsLoading } = useGetMovieGenresQuery();
   const [createMovie, { isLoading }] = useCreateMovieMutation();
+  const [uploadMoviePhoto] = useUploadMoviePhotoMutation();
+  const navigate = useNavigate();
 
   const handleSubmit = (values) => {
-    
-     var formData = new FormData();
-      formData.append('name', values.name);
-      formData.append('description', values.description);
-      formData.append('releaseDate', values.releaseDate);
-      formData.append('rating', values.rating);
-      formData.append('ticketPrice', values.ticketPrice);
-      formData.append('country', values.country);
-      formData.append('photo', values.photo);
-      formData.append('genres', JSON.stringify(values.genres));
-      formData.append('comments', '[]')
-      formData.append('slug', slugify(values.name))
-   
-      createMovie(formData).unwrap().then((res) => {
-      if(res.status){
-        showMessage(MessageTypes.SUCCESS, 'Movie Created Successfully');
+
+    var formData = new FormData();
+    formData.append('file', values.photo);
+
+    uploadMoviePhoto(formData).unwrap().then((res) => {
+      if (res.status) {
+        var payload = {
+          ...values,
+          slug: slugify(values.name),
+          photo: res.data,
+        }
+        createMovie(payload).unwrap().then((res) => {
+          if (res.status) {
+            showMessage(MessageTypes.SUCCESS, 'Movie Created Successfully');
+            navigate('/movies');
+            return;
+          }
+          else {
+            showMessage(MessageTypes.ERROR, res.message);
+          }
+        })
       }
       else {
         showMessage(MessageTypes.ERROR, res.message);
       }
-    })  
+    })
   };
 
   const formhandler = useFormik({
@@ -73,7 +81,7 @@ export default function CreateMoviePage() {
           value={formhandler.values.title}
           required
         />
-         <InputField
+        <InputField
           type="text"
           name="description"
           id="description"
@@ -138,8 +146,8 @@ export default function CreateMoviePage() {
           label={'Photo'}
           onChange={(e) => formhandler.setFieldValue('photo', e.target.files[0])}
           required
-        />    
-       
+        />
+
         <Button type="submit" disabled={isLoading}>
           {isLoading ? 'Loading...' : 'Create'}
         </Button>

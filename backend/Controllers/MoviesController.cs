@@ -58,9 +58,19 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost]
-        public async Task<ActionResult<ApiResponse<Movie>>> PostAsync([FromBody] MovieObject model)
+        public async Task<ActionResult<ApiResponse<Movie>>> PostAsync([FromBody] Movie model)
         {
             return Ok(await movieManager.AddNewMovieAsync(model));
+        }
+
+        /// <summary>
+        /// Uploads an image for a movie
+        /// </summary>
+        /// <param name="file"></param>
+        [HttpPost("Image")]
+        public async Task<ActionResult<ApiResponse<string>>> PostAsync(IFormFile file)
+        {
+            return Ok(await movieManager.AddMoviePosterAsync(file));
         }
 
         // You must be signed in to post a comment
