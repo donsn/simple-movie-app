@@ -13,7 +13,7 @@ export default function MovieListPage() {
   }
 
   if(error) {
-    return <div>Something went wrong</div>;
+    return <FlexContainer>Unable to load data</FlexContainer>;
   }
 
   if(data.length === 0) {
