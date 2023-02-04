@@ -10,4 +10,9 @@ export const Form = styled.form`
     border: 1px solid #e0e0e0;
     border-radius: 0.25rem;
     background-color: #ffffff;
+
+    a {
+        text-decoration: none;
+        color: #DB3A34;
+    }
 `;
