@@ -115,8 +115,7 @@ namespace MovieMaster.Services
                 {
                     return null!;
                 }
-
-                slug = slug.Replace("-", " ");
+                
 
                 var movie = await context.Movies.Where(x => x.Name.ToLower() == slug.ToLower())
                     .Include(x=> x.Genres)

@@ -47,6 +47,11 @@ namespace MovieMaster.Data.Models
         /// Image of the movie
         /// </summary>
         public string Photo { get; set; } = default!;
+
+		/// <summary>
+		/// Movie slug
+		/// </summary>
+		public string Slug { get; set; } = default!;
 	}
 
 }

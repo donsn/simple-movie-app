@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 export const SmallMovieContainer = styled(Link)`
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
     justify-content: center;
     text-decoration: none;
     color: #222222; 
