@@ -19,7 +19,7 @@ export const MultiSelect =  ({options = [], label, ...props}) =>
     return (
         <InputContainer>
             <StyledLabel htmlFor={props.id}>{label}</StyledLabel>
-            <CreatableSelect isSearchable isClearable isMulti options={options}/>
+            <CreatableSelect isSearchable isClearable isMulti options={options} {...props}/>
         </InputContainer>
     )
 }

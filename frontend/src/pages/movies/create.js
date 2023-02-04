@@ -5,12 +5,19 @@ import { HashLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import { CountryInput, InputField, MultiSelect } from '../../components/inputs';
 import { Button } from '../../components/buttons';
+import { showMessage, MessageTypes } from '../../components/toast';
 
 
 
 export default function CreateMoviePage() {
   const { data: genres, loading: genresIsLoading } = useGetMovieGenresQuery();
   const [createMovie, { isLoading }] = useCreateMovieMutation();
+
+  const handleSubmit = (values) => {
+    console.log(values);
+    showMessage(MessageTypes.SUCCESS, 'Movie Created Successfully');
+    // createMovie(values);
+  };
 
   const formhandler = useFormik({
     initialValues: {
@@ -23,9 +30,7 @@ export default function CreateMoviePage() {
       country: '',
       photo: null,
     },
-    onSubmit: (values) => {
-      createMovie(values);
-    },
+    onSubmit: handleSubmit,
   });
 
   if (genresIsLoading) {
@@ -63,8 +68,8 @@ export default function CreateMoviePage() {
           options={genres}
           name="genreId"
           id="genreId"
-          onChange={formhandler.handleChange}
-          value={formhandler.values.genres}
+          onChange={(values) => formhandler.setFieldValue("genres", values)}
+          // value={formhandler.values.genres}
           required
         >
         </MultiSelect>
