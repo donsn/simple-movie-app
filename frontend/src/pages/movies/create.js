@@ -1,29 +1,25 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FlexContainer, Form } from './styles';
-import { useGetMovieGenresQuery, useCreateMovieMutation, useUploadMoviePhotoMutation } from '../../api/movies';
+import { useGetMovieGenresQuery, useCreateMovieMutation} from '../../api/movies';
 import { HashLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import { CountryInput, InputField, MultiSelect, transformOutput } from '../../components/inputs';
 import { Button } from '../../components/buttons';
 import { showMessage, MessageTypes } from '../../components/toast';
 import { slugify } from '../../utilities/slugify';
+import { uploadImageAsync } from '../../utilities/images/uploader';
 
 
 
 export default function CreateMoviePage() {
   const { data: genres, loading: genresIsLoading } = useGetMovieGenresQuery();
   const [createMovie, { isLoading }] = useCreateMovieMutation();
-  const [uploadMoviePhoto] = useUploadMoviePhotoMutation();
   const navigate = useNavigate();
 
   const handleSubmit = (values) => {
-
-    var formData = new FormData();
-    formData.append('file', values.photo);
-
-    uploadMoviePhoto(formData).unwrap().then((res) => {
-      if (res.status) {
+    uploadImageAsync(values.photo).then((res) => {
+      if (res.uploaded) {
         var payload = {
           ...values,
           slug: slugify(values.name),
