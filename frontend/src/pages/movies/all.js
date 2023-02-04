@@ -1,4 +1,5 @@
 import React from 'react';
+import { HashLoader } from 'react-spinners';
 import SmallMovieView from '../../components/movie/small';
 import { FlexContainer, Title } from './styles';
 import { useGetMoviesQuery } from '../../api/movies';
@@ -6,7 +7,9 @@ import { useGetMoviesQuery } from '../../api/movies';
 export default function MovieListPage() {
   const { data, error, isLoading } = useGetMoviesQuery();
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <FlexContainer>
+          <HashLoader color='#4FB286'>Loading...</HashLoader>
+    </FlexContainer>
   }
 
   if(error) {
