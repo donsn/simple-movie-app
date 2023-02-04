@@ -8,10 +8,13 @@ export default function MovieListPage() {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  console.log(data);
 
   if(error) {
     return <div>Something went wrong</div>;
+  }
+
+  if(data.length === 0) {
+    return <FlexContainer>No movies available</FlexContainer>;
   }
 
   return (
