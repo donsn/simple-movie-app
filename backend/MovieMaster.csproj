@@ -49,5 +49,11 @@
     <Folder Include="Data\API\" />
     <Folder Include="Data\API\Models\" />
     <Folder Include="Tools\" />
+    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\" />
+    <Content Remove="wwwroot\images\" />
   </ItemGroup>
 </Project>
