@@ -5,8 +5,8 @@ import { SmallMovieContainer, MovieTitle, MoviePosterContainer, MovieDetailsCont
 
 export default function SmallMovieView({ movie }) {
   return (
-    <SmallMovieContainer to={`/movies/${slugify('title of life')}`}>
-      <MovieTitle>Movie Title</MovieTitle>
+    <SmallMovieContainer to={`/movies/${slugify('Spider Man - Far From Home')}`}>
+      <MovieTitle>Spider Man - Far From Home</MovieTitle>
       <MoviePosterContainer>
         <img src="https://via.placeholder.com/300x450" alt="Movie Poster" />
       </MoviePosterContainer>

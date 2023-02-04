@@ -5,8 +5,10 @@ export const FlexContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
     width: 100%;
     flex-wrap: wrap;
+    padding: 1rem;
     gap: 2rem;
 `;
 

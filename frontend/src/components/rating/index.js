@@ -9,7 +9,7 @@ import { RatingsContainer } from './styles';
 export default function Rating({ rating }) {
     return (
         <RatingsContainer>
-            <span>Rating: {rating}</span>
+            <span>Rating: </span>
             <br/>
             {
                 Array.from({ length: rating }, (_, i) => (
