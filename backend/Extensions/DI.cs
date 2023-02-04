@@ -23,6 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
 			services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IMovieManagerService, MovieManagerService>();
+			services.AddCors();
             return services;
 		}
 
@@ -33,6 +34,10 @@ namespace Microsoft.Extensions.DependencyInjection
 		/// <returns></returns>
         public static IApplicationBuilder UseMovieApp(this IApplicationBuilder builder)
         {
+			builder.UseCors(options =>
+			{
+				options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+			});
             builder.UseAuthentication();
             builder.UseAuthorization();
             builder.UseHttpsRedirection();
