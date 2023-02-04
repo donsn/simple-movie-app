@@ -18,26 +18,26 @@ export const moviesApi = createApi({
     endpoints: (builder) => ({
         createMovie: builder.mutation({
             query: (movie) => ({
-                url: '/movies',
+                url: 'api/movies',
                 method: 'POST',
                 body: movie,
             }),
         }),
         getMovieGenres: builder.query({
             query: () => ({
-                url: '/movies/genres',
+                url: 'api/movies/genres',
                 method: 'GET',
             })
         }),
         getMovies: builder.query({
             query: () => ({
-                url: '/movies',
+                url: 'api/movies',
                 method: 'GET',
             })
         }),
         getMovieBySlug: builder.query({
             query: (slug) => ({
-                url: `/movies/slug/${slug}`,
+                url: `api/movies/slug/${slug}`,
                 method: 'GET',
             })
         }),

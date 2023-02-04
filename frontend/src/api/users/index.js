@@ -13,20 +13,20 @@ export const usersApi = createApi({
     endpoints: (builder) => ({
         createUser: builder.mutation({
             query: (user) => ({
-                url: "/users",
+                url: "api/users",
                 method: "POST",
                 body: user,
             }),
         }),
         getUser: builder.query({
             query: () => ({
-                url: "/users",
+                url: "api/users",
                 method: "GET",
             })
         }),
         loginUser: builder.mutation({
             query: (payload) => ({
-                url: "/users/login",
+                url: "api/users/login",
                 method: "POST",
                 body: payload,
             }),
