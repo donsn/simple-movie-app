@@ -41,6 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
             builder.UseAuthentication();
             builder.UseAuthorization();
             builder.UseHttpsRedirection();
+			builder.UseStaticFiles();
 
             InitializeDB.RunAsync(builder.ApplicationServices).Wait();
 
