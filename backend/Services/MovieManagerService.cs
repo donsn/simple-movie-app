@@ -10,11 +10,77 @@ namespace MovieMaster.Services
 	{
         private readonly ApplicationDbContext context;
         private readonly ILogger<MovieManagerService> logger;
+        private readonly IWebHostEnvironment environment;
 
-        public MovieManagerService(ApplicationDbContext context, ILogger<MovieManagerService> logger)
+        public MovieManagerService(ApplicationDbContext context, ILogger<MovieManagerService> logger, IWebHostEnvironment environment)
         {
             this.context = context;
             this.logger = logger;
+            this.environment = environment;
+        }
+
+        /// <summary>
+        /// Adds a new movie by uploading the file to wwwroot/images
+        /// </summary>
+        /// <param name="movie"></param>
+        /// <returns></returns>
+        public async Task<ApiResponse<Movie>> AddNewMovieAsync(MovieObject movie)
+        {
+            try
+            {
+                if (movie.Photo is null)
+                {
+                    return new ApiResponse<Movie>(default!)
+                    {
+                        Message = "Photo cannot be absent"
+                    };
+                }
+
+                if (movie.Photo.Length > 0)
+                {
+                    var extension = Path.GetExtension(movie.Photo.FileName).ToLower().Trim();
+                    var filename = Path.GetRandomFileName().Replace(".", "") + extension;
+                    var folder = Path.Combine(environment.ContentRootPath, "images", filename);
+
+                    var filestream = new FileStream(folder, FileMode.Create);
+                    await movie.Photo.CopyToAsync(filestream);
+
+                    var _movie = new Movie
+                    {
+                        Photo = filename,
+                        Name = movie.Name,
+                        Description = movie.Description,
+                        Slug = movie.Slug,
+                        Comments = movie.Comments,
+                        ReleaseDate = movie.ReleaseDate,
+                        TicketPrice = movie.TicketPrice,
+                        Country= movie.Country,
+                        Genres= movie.Genres,
+                        Rating = movie.Rating
+                    };
+
+                    return await AddNewMovieAsync(_movie);
+                }
+                else
+                {
+                    return new ApiResponse<Movie>(default!)
+                    {
+                        Message = "Empty file"
+                    };
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unable to add a new movie");
+            }
+
+            return new ApiResponse<Movie>(default!)
+            {
+                Message = "Couldn't create a this movie"
+            };
         }
 
         /// <summary>

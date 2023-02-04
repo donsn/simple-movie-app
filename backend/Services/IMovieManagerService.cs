@@ -7,6 +7,12 @@ namespace MovieMaster.Services
 	public interface IMovieManagerService
 	{
         /// <summary>
+        /// Adds a new movie by uploading the file to wwwroot/images
+        /// </summary>
+        /// <param name="movie"></param>
+        /// <returns></returns>
+        Task<ApiResponse<Movie>> AddNewMovieAsync(MovieObject movie);
+        /// <summary>
         /// Adds a new movie
         /// </summary>
         /// <param name="movie"></param>
