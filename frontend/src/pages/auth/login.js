@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '../../components/buttons';
 import { Form } from '../../components/forms';
 import { InputField } from '../../components/inputs';
@@ -12,6 +13,7 @@ export default function LoginPage() {
         <InputField label="Username" name="username" type="text" />
         <InputField label="Password" name="password" type="password" />
         <Button> Login</Button>
+        <Link to="/register">Don't have an account? Signup</Link>
       </Form>
   </FlexContainer>
   );
