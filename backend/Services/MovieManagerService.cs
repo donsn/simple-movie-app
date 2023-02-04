@@ -152,7 +152,8 @@ namespace MovieMaster.Services
                         Message = "Movie already exists"
                     };
                 }
-
+                // Due to postgres check
+                movie.ReleaseDate = DateTime.SpecifyKind(movie.ReleaseDate, DateTimeKind.Utc);
                 var result = await context.AddAsync(movie);
                 await context.SaveChangesAsync();
 
@@ -168,7 +169,7 @@ namespace MovieMaster.Services
 
             return new ApiResponse<Movie>(default!)
             {
-                Message = "Couldn't create a this movie"
+                Message = "Couldn't create this movie"
             };
         }
 
@@ -237,7 +238,7 @@ namespace MovieMaster.Services
                 
 
                 var movie = await context.Movies.Where(x => x.Slug.ToLower() == slug.ToLower())
-                    .Include(x=> x.Genres)
+                    .Include(x=> x.Genres).Include(x=> x.Comments)
                     .FirstOrDefaultAsync();
 
                 return movie!;

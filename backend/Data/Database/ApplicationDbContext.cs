@@ -30,14 +30,12 @@ namespace MovieMaster.Data.Database
                 x.HasIndex(x => x.Name);
                 x.HasMany(x=> x.Genres).WithMany(x=> x.Movies);
                 x.HasMany(x => x.Comments).WithOne(x => x.Movie);
-                x.Property(x => x.LastModified).ValueGeneratedOnAddOrUpdate();
             });
 
             modelBuilder.Entity<Genre>(x =>
             {
                 x.HasKey(p => p.Id);
                 x.HasIndex(x => x.Name);
-                x.Property(x => x.LastModified).ValueGeneratedOnAddOrUpdate();
             });
 
             modelBuilder.Entity<Comment>(x =>

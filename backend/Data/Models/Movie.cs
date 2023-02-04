@@ -20,7 +20,7 @@ namespace MovieMaster.Data.Models
 		/// <summary>
 		/// Release Date
 		/// </summary>
-		public DateTime ReleaseDate { get; set; } = default;
+		public DateTime ReleaseDate { get; set; } = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
 		/// <summary>
 		/// Rating ( 1 - 5 )
 		/// </summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using MovieMaster.Data.Models.Base;
 
 namespace MovieMaster.Data.Models
@@ -15,6 +16,7 @@ namespace MovieMaster.Data.Models
 		/// <summary>
 		/// Movies in this genre
 		/// </summary>
+		[JsonIgnore]
 		public List<Movie> Movies { get; set; } = default!;
 	}
 }

@@ -23,7 +23,7 @@ export default function CreateMoviePage() {
         var payload = {
           ...values,
           slug: slugify(values.name),
-          photo: res.data,
+          photo: res.url,
         }
         createMovie(payload).unwrap().then((res) => {
           if (res.status) {

@@ -13,11 +13,7 @@ namespace MovieMaster.Data.Models.Base
 		/// <summary>
 		/// Created At
 		/// </summary>
-		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-		/// <summary>
-		/// Last Modified
-		/// </summary>
-		public DateTime LastModified { get; set; } = DateTime.UtcNow;
+		public DateTime CreatedAt { get; set; } = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Utc);
 	}
 }
 
