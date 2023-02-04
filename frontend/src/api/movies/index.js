@@ -8,7 +8,6 @@ export const moviesApi = createApi({
         baseUrl: BASE_URL,
         prepareHeaders: (headers) => {
             const access_token = retrieveContent("x_token");
-            console.log({BASE_URL});
             headers.set("content-type", "application/json");
             if (access_token) {
                 headers.set("authorization", `Bearer ${access_token}`);
