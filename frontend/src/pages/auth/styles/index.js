@@ -11,10 +11,3 @@ export const FlexContainer = styled.div`
     padding: 1rem;
     gap: 1.5rem;
 `;
-
-export const Title = styled.h1`
-    font-size: 2rem;
-    font-weight: 700;
-    color: #222222;
-    text-align: center;
-    `;

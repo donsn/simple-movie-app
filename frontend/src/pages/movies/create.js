@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FlexContainer, Form } from './styles';
-import { useGetMovieGenresQuery, useCreateMovieMutation} from '../../api/movies';
+import { FlexContainer } from './styles';
+import { Form } from '../../components/forms';
+import { useGetMovieGenresQuery, useCreateMovieMutation } from '../../api/movies';
 import { HashLoader } from 'react-spinners';
 import { useFormik } from 'formik';
 import { CountryInput, InputField, MultiSelect, transformOutput } from '../../components/inputs';
