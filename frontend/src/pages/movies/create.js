@@ -112,8 +112,7 @@ export default function CreateMoviePage() {
           name="photo"
           id="photo"
           label={'Photo'}
-          onChange={formhandler.handleChange}
-          value={formhandler.values.photo}
+          onChange={(e) => formhandler.setFieldValue('photo', e.target.files[0])}
           required
         />    
        
