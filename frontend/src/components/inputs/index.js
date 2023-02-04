@@ -50,6 +50,12 @@ export const transformOptions = (options) => {
 export const transformOutput = (options) => {
     if (options) {
         return options.map(option => {
+            if (option.__isNew__) {
+                return {
+                    name: option.label,
+                    id: 0
+                }
+            }
             return {
                 name: option.label,
                 id: option.value
