@@ -1,5 +1,5 @@
 import React from 'react';
-import { LargeMovieContainer, MovieDescriptionContainer, MovieDetailsContainer } from './styles';
+import { LargeMovieContainer, MovieDescription, MovieDescriptionContainer, MovieDetailsContainer, MoviePosterContainer } from './styles';
 import {useAuthentication} from '../../hooks/auth';
 /**
  * Renders a large movie view
@@ -11,17 +11,18 @@ export default function LargeMovieView({movie}) {
     <LargeMovieContainer>
       <MovieDetailsContainer>
         <h1>Movie Title</h1>
-        <img src="https://via.placeholder.com/500x600" alt="Movie Poster" />
-        <h2>Description</h2>
+        <MoviePosterContainer large>
+          <img src="https://via.placeholder.com/500x600" alt="Movie Poster" />
+        </MoviePosterContainer>
         <MovieDescriptionContainer>
-          <p>
+          <MovieDescription>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
             nunc euismod, ultricies nisl sed, ultricies nisl. Sed euismod nunc
             euismod, ultricies nisl sed, ultricies nisl. Sed euismod nunc euismod,
             ultricies nisl sed, ultricies nisl. Sed euismod nunc euismod, ultricies
             nisl sed, ultricies nisl. Sed euismod nunc euismod, ultricies nisl sed,
             ultricies nisl. Sed euismod nunc euismod, ultricies nisl sed, ultricies
-          </p>
+          </MovieDescription>
         </MovieDescriptionContainer>
         <h2>Genre</h2>
         <p>Action, Adventure</p>

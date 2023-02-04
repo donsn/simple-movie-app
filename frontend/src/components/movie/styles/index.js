@@ -26,7 +26,7 @@ export const LargeMovieContainer = styled.div`
     color: #222222;
     box-shadow: 4px 10px 30px 0px rgba(0,0,0,0.1);
     padding: 1rem;
-    width: 100%;
+    width: 80%;
     border-radius: 0.5rem;
     transition: all 0.5s ease-in-out;
     `;
@@ -36,7 +36,7 @@ export const MovieDescriptionContainer = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    max-width: 500px;
+    max-width: 450px;
 `;
 export const MovieDescription = styled.p`
     color: #1F2041;
@@ -51,7 +51,7 @@ export const MovieTitle = styled.h2`
 `;
 
 export const MoviePosterContainer = styled.div`
-    max-width: 300px;
+    max-width: ${props => props.large ? '450px' : '300px'};
     display: flex;
     align-items: center;
     border-radius: 0.5rem;
