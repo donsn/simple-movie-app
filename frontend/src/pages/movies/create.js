@@ -3,7 +3,7 @@ import { FlexContainer, Form } from './styles';
 import { useGetMovieGenresQuery, useCreateMovieMutation } from '../../api/movies';
 import { HashLoader } from 'react-spinners';
 import { useFormik } from 'formik';
-import { CountryInput, InputField, MultiSelect } from '../../components/inputs';
+import { CountryInput, InputField, MultiSelect, transformOutput } from '../../components/inputs';
 import { Button } from '../../components/buttons';
 import { showMessage, MessageTypes } from '../../components/toast';
 
@@ -68,7 +68,7 @@ export default function CreateMoviePage() {
           options={genres}
           name="genreId"
           id="genreId"
-          onChange={(values) => formhandler.setFieldValue("genres", values)}
+          onChange={(values) => formhandler.setFieldValue("genres", transformOutput(values))}
           // value={formhandler.values.genres}
           required
         >

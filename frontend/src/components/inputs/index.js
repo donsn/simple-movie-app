@@ -24,6 +24,43 @@ export const MultiSelect =  ({options = [], label, ...props}) =>
     )
 }
 
+/**
+ * Transforms select options to react-select options
+ * @param {*} options 
+ * @returns 
+ */
+export const transformOptions = (options) => {
+    if (options) {
+        return options.map(option => {
+            return {
+                label: option.name,
+                value: option.id
+            }
+        })        
+    }
+
+    return [];
+}
+
+/**
+ * Transforms the output of react-select to the format that the backend expects
+ * @param {*} options 
+ * @returns 
+ */
+export const transformOutput = (options) => {
+    if (options) {
+        return options.map(option => {
+            return {
+                name: option.label,
+                id: option.value
+            }
+        })
+    }
+
+    return [];
+}
+
+
 export const CountryInput = ({label, ...props}) => {
     return (
         <InputContainer>
