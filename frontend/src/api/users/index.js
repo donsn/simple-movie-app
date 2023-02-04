@@ -13,20 +13,20 @@ export const usersApi = createApi({
     endpoints: (builder) => ({
         createUser: builder.mutation({
             query: (user) => ({
-                url: "api/users",
+                url: "api/user",
                 method: "POST",
                 body: user,
             }),
         }),
         getUser: builder.query({
             query: () => ({
-                url: "api/users",
+                url: "api/user",
                 method: "GET",
             })
         }),
         loginUser: builder.mutation({
             query: (payload) => ({
-                url: "api/users/login",
+                url: "api/user/login",
                 method: "POST",
                 body: payload,
             }),
@@ -34,3 +34,9 @@ export const usersApi = createApi({
     }),
 
 })
+
+export const {
+    useCreateUserMutation,
+    useGetUserQuery,
+    useLoginUserMutation,
+} = usersApi;

@@ -10,8 +10,9 @@ export default function SignupPage() {
     <FlexContainer>
       <Form>
         <h1>Signup</h1>
-        <InputField label="Username" name="username" type="text" />
-        <InputField label="Password" name="password" type="password" />
+        <InputField label="Full Name" name="name" type="text" required/>
+        <InputField label="Username" name="username" type="text" required/>
+        <InputField label="Password" name="password" type="password" required/>
         <Button> Signup</Button>
         <Link to="/login">Already have an account? Login</Link>
       </Form>
