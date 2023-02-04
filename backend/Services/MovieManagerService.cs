@@ -40,7 +40,7 @@ namespace MovieMaster.Services
                 {
                     var extension = Path.GetExtension(movie.Photo.FileName).ToLower().Trim();
                     var filename = Path.GetRandomFileName().Replace(".", "") + extension;
-                    var folder = Path.Combine(environment.ContentRootPath, "images", filename);
+                    var folder = Path.Combine(environment.WebRootPath, "images", filename);
 
                     var filestream = new FileStream(folder, FileMode.Create);
                     await movie.Photo.CopyToAsync(filestream);
