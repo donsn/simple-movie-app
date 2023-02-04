@@ -1,4 +1,5 @@
 import React from 'react';
+import { RatingsContainer } from './styles';
 
 /**
  * Displays rating as number of stars
@@ -7,7 +8,7 @@ import React from 'react';
  */
 export default function Rating({ rating }) {
     return (
-        <div>
+        <RatingsContainer>
             <span>Rating: {rating}</span>
             <br/>
             {
@@ -17,6 +18,6 @@ export default function Rating({ rating }) {
                     </span>
                 ))
             }
-        </div>
+        </RatingsContainer>
     );
 }

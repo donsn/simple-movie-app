@@ -1,16 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { slugify } from '../../utilities/slugify';
 import Rating from '../rating';
+import { SmallMovieContainer, MovieTitle, MoviePosterContainer, MovieDetailsContainer } from './styles';
 
-export default function SmallMovieView() {
+export default function SmallMovieView({ movie }) {
   return (
-    <Link to={`/movies/${slugify('title of life')}`}>
-      <h2>Movie Title</h2>
-      <p>Movie Description</p>
-      <img src="https://via.placeholder.com/300x450" alt="Movie Poster" />
-      <p>Released: {new Date().getFullYear()}</p>
-      <Rating rating={3}/>
-    </Link>
+    <SmallMovieContainer to={`/movies/${slugify('title of life')}`}>
+      <MovieTitle>Movie Title</MovieTitle>
+      <MoviePosterContainer>
+        <img src="https://via.placeholder.com/300x450" alt="Movie Poster" />
+      </MoviePosterContainer>
+      <MovieDetailsContainer>
+        <p>Released: {new Date().getFullYear()}</p>
+        <Rating rating={3} />
+      </MovieDetailsContainer>
+    </SmallMovieContainer>
   );
 }

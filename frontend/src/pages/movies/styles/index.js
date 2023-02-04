@@ -7,6 +7,7 @@ export const FlexContainer = styled.div`
     justify-content: center;
     width: 100%;
     flex-wrap: wrap;
+    gap: 2rem;
 `;
 
 export const Title = styled.h1`
