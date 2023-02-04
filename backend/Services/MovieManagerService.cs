@@ -117,7 +117,7 @@ namespace MovieMaster.Services
                 }
                 
 
-                var movie = await context.Movies.Where(x => x.Name.ToLower() == slug.ToLower())
+                var movie = await context.Movies.Where(x => x.Slug.ToLower() == slug.ToLower())
                     .Include(x=> x.Genres)
                     .FirstOrDefaultAsync();
 
