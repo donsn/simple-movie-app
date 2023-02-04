@@ -18,7 +18,7 @@ export default function CreateMoviePage() {
       description: '',
       genres: [],
       releaseDate: new Date(),
-      rating: 0,
+      rating: 1,
       ticketPrice: 0,
       country: '',
       photo: null,
@@ -82,6 +82,8 @@ export default function CreateMoviePage() {
           name="rating"
           id="rating"
           label={'Rating'}
+          min={1}
+          max={5}
           onChange={formhandler.handleChange}
           value={formhandler.values.rating}
           required
