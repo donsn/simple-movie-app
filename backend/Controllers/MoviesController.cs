@@ -58,7 +58,7 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost]
-        public async Task<ActionResult<ApiResponse<Movie>>> PostAsync([FromBody] Movie model)
+        public async Task<ActionResult<ApiResponse<Movie>>> PostAsync([FromBody] MovieObject model)
         {
             return Ok(await movieManager.AddNewMovieAsync(model));
         }

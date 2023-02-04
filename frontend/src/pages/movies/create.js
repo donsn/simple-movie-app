@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import { CountryInput, InputField, MultiSelect, transformOutput } from '../../components/inputs';
 import { Button } from '../../components/buttons';
 import { showMessage, MessageTypes } from '../../components/toast';
+import { slugify } from '../../utilities/slugify';
 
 
 
@@ -14,9 +15,27 @@ export default function CreateMoviePage() {
   const [createMovie, { isLoading }] = useCreateMovieMutation();
 
   const handleSubmit = (values) => {
-    console.log(values);
-    showMessage(MessageTypes.SUCCESS, 'Movie Created Successfully');
-    // createMovie(values);
+    
+     var formData = new FormData();
+      formData.append('name', values.name);
+      formData.append('description', values.description);
+      formData.append('releaseDate', values.releaseDate);
+      formData.append('rating', values.rating);
+      formData.append('ticketPrice', values.ticketPrice);
+      formData.append('country', values.country);
+      formData.append('photo', values.photo);
+      formData.append('genres', JSON.stringify(values.genres));
+      formData.append('comments', '[]')
+      formData.append('slug', slugify(values.name))
+   
+      createMovie(formData).unwrap().then((res) => {
+      if(res.status){
+        showMessage(MessageTypes.SUCCESS, 'Movie Created Successfully');
+      }
+      else {
+        showMessage(MessageTypes.ERROR, res.message);
+      }
+    })  
   };
 
   const formhandler = useFormik({

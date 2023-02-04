@@ -19,6 +19,9 @@ export const moviesApi = createApi({
         createMovie: builder.mutation({
             query: (movie) => ({
                 url: 'api/movies',
+                headers: {
+                    'content-type': 'multipart/form-data',
+                },
                 method: 'POST',
                 body: movie,
             }),

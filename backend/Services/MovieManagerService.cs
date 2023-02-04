@@ -79,7 +79,7 @@ namespace MovieMaster.Services
 
             return new ApiResponse<Movie>(default!)
             {
-                Message = "Couldn't create a this movie"
+                Message = "Couldn't create this movie"
             };
         }
 
