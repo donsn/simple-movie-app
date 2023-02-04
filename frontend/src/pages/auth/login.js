@@ -20,7 +20,7 @@ export default function LoginPage() {
     .unwrap()
     .then((result) => {
       if (result.succeeded) {
-        saveContent('x-token', result.data.token);
+        saveContent('x-token', result.token);
         showMessage(MessageTypes.SUCCESS, 'Login Successful');
         navigate('/movies');
       }else{

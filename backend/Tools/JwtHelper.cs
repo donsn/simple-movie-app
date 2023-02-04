@@ -22,7 +22,7 @@ namespace MovieMaster.Tools
             if (user != null)
             {
 
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JWT"));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("UNSECURE_JWT_TOKEN"));
 
                 var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

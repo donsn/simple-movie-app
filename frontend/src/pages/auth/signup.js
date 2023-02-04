@@ -14,8 +14,8 @@ export default function SignupPage() {
   const [registerUser, { isLoading }] = useCreateUserMutation();
 
   const handleSignup = (values) => {
-    const { name, username, password } = values;
-    registerUser({ name, username, password })
+    const { name, username, passwordHash } = values;
+    registerUser({ name, username, passwordHash })
     .unwrap()
     .then((result) => {
       if (result.status) {
