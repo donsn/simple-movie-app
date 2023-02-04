@@ -3,6 +3,7 @@ import LoginPage from './auth/login';
 import SignupPage from './auth/signup';
 import MovieListPage from './movies/all';
 import SingleMoviePage from './movies/single';
+import CreateMoviePage from './movies/create';
 
 export const Routes = [
     {
@@ -12,6 +13,10 @@ export const Routes = [
     {
         path: '/movies',
         element: <MovieListPage />,
+    },
+    {
+        path: 'movies/create',
+        element: <CreateMoviePage />,
     },
     {
         path: '/movies/:slug',
