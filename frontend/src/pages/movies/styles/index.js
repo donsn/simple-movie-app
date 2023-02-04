@@ -9,7 +9,7 @@ export const FlexContainer = styled.div`
     width: 100%;
     flex-wrap: wrap;
     padding: 1rem;
-    gap: 2rem;
+    gap: 1.5rem;
 `;
 
 export const Title = styled.h1`
@@ -18,3 +18,15 @@ export const Title = styled.h1`
     color: #222222;
     text-align: center;
     `;
+
+export const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 0.25rem;
+    background-color: #ffffff;
+`;
