@@ -23,6 +23,13 @@ export const moviesApi = createApi({
                 body: movie,
             }),
         }),
+        addCommentToMovie: builder.mutation({
+            query: (payload) => ({
+                url: `api/movies/${payload.movieId}/comments`,
+                method: 'POST',
+                body: payload.comment,
+            }),
+        }),
         getMovieGenres: builder.query({
             query: () => ({
                 url: 'api/movies/genres',
