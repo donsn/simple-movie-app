@@ -1,6 +1,8 @@
 import React from 'react';
 import { LargeMovieContainer, MovieDescription, MovieDescriptionContainer, MovieDetailsContainer, MoviePosterContainer } from './styles';
 import {useAuthentication} from '../../hooks/auth';
+import { BASE_URL } from '../../api/base';
+
 /**
  * Renders a large movie view
  * @returns {JSX.Element}
@@ -10,37 +12,34 @@ export default function LargeMovieView({movie}) {
   return (
     <LargeMovieContainer>
       <MovieDetailsContainer>
-        <h1>Movie Title</h1>
+        <h1>{movie.name}</h1>
         <MoviePosterContainer large>
-          <img src="https://via.placeholder.com/500x600" alt="Movie Poster" />
+          <img src={`${BASE_URL}/images/${movie.photo}`} alt="Movie Poster" />
         </MoviePosterContainer>
         <MovieDescriptionContainer>
           <MovieDescription>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod
-            nunc euismod, ultricies nisl sed, ultricies nisl. Sed euismod nunc
-            euismod, ultricies nisl sed, ultricies nisl. Sed euismod nunc euismod,
-            ultricies nisl sed, ultricies nisl. Sed euismod nunc euismod, ultricies
-            nisl sed, ultricies nisl. Sed euismod nunc euismod, ultricies nisl sed,
-            ultricies nisl. Sed euismod nunc euismod, ultricies nisl sed, ultricies
+            {movie.description}
           </MovieDescription>
         </MovieDescriptionContainer>
-        <h2>Genre</h2>
-        <p>Action, Adventure</p>
-        <h2>Released</h2>
-        <p>2020</p>
-        <h2>Rating</h2>
-        <p>5</p>
-        <h2>Ticket Price</h2>
-        <p>$10</p>
-        <h2>Country</h2>
-        <p>USA</p>
       </MovieDetailsContainer>
       <div>
-        <h2>Comments</h2>
+        <h2>Genre</h2>
+        <p>{movie.genres.map(x=> x.name)}</p>
+        <h2>Released</h2>
+        <p>{new Date(movie.releaseDate).getFullYear()}</p>
+        <h2>Rating</h2>
+        <p>{movie.rating}</p>
+        <h2>Ticket Price</h2>
+        <p>{movie.ticketPrice}</p>
+        <h2>Country</h2>
+        <p>{movie.country}</p>
       </div>
-      {authenticated && (
-        <button type="button">Comment</button>
-      )}
+      <div>
+        <h2>Comments</h2>
+        {authenticated && (
+          <button type="button">Comment</button>
+        )}
+      </div>
     </LargeMovieContainer>
   );
 }
