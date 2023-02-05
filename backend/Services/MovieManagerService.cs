@@ -155,29 +155,6 @@ namespace MovieMaster.Services
                 // Due to postgres check
                 movie.ReleaseDate = DateTime.SpecifyKind(movie.ReleaseDate, DateTimeKind.Utc);
 
-                /// Duplicate key bug with ef core
-                var genres = await context.Genres.ToListAsync();
-
-                var _modelGenres = movie.Genres.ToList();
-                movie.Genres.Clear();
-
-                foreach (var genre in genres)
-                {
-                    if (_modelGenres.Exists(x=> x.Id == genre.Id && x.Name == genre.Name))
-                    {
-                        movie.Genres.Add(genre);
-                    }
-                }
-
-                foreach (var item in _modelGenres)
-                {
-                    if (movie.Genres.Exists(x=> x.Id == item.Id && x.Name == item.Name))
-                    {
-                        movie.Genres.Add(item);
-                    }
-                }
-                ///
-
                 var result = await context.AddAsync(movie);
                 await context.SaveChangesAsync();
 
