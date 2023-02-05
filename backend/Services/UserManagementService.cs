@@ -55,7 +55,7 @@ namespace MovieMaster.Services
                 {
                     PasswordHash = user.PasswordHash,
                     Name = user.Name,
-                    Username = user.Name
+                    Username = user.Username
                 };
                 var result = await context.Users.AddAsync(_user);
                 await context.SaveChangesAsync();
@@ -93,7 +93,7 @@ namespace MovieMaster.Services
                 {
                     if (PasswordHasher.VerifyPassword(password, user.PasswordHash!))
                     {
-                        return JwtHelper.GenerateToken(user);
+                        return JwtHelper.GenerateToken(user.ToUser());
                     }
 
                     return new TokenModel

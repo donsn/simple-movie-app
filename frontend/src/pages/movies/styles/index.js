@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FlexContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: ${props => props.direction || 'row'};
     align-items: center;
     justify-content: center;
     min-height: 100vh;
