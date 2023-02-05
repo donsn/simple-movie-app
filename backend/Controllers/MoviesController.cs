@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieMaster.Data.API.DTOs;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Models;
 using MovieMaster.Services;
@@ -27,7 +28,7 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<Movie>> GetAsync()
+        public async Task<IEnumerable<MovieDTO>> GetAsync()
         {
             return await movieManager.GetAllMoviesAsync();
         }
@@ -48,7 +49,7 @@ namespace MovieMaster.Controllers
         /// <param name="slug"></param>
         /// <returns></returns>
         [HttpGet("Slug/{slug}")]
-        public async Task<Movie> GetAsync(string slug)
+        public async Task<MovieDTO?> GetAsync(string slug)
         {
             return await movieManager.GetMovieBySlugAsync(slug);
         }
@@ -58,7 +59,7 @@ namespace MovieMaster.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost]
-        public async Task<ActionResult<ApiResponse<Movie>>> PostAsync([FromBody] Movie model)
+        public async Task<ActionResult<ApiResponse<MovieDTO>>> PostAsync([FromBody] MovieDTO model)
         {
             return Ok(await movieManager.AddNewMovieAsync(model));
         }
