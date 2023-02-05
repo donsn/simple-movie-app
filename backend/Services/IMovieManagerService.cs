@@ -1,4 +1,5 @@
 ﻿using System;
+using MovieMaster.Data.API.DTOs;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Models;
 
@@ -17,13 +18,13 @@ namespace MovieMaster.Services
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
-        Task<ApiResponse<Movie>> AddNewMovieAsync(MovieObject movie);
+        Task<ApiResponse<MovieDTO>> AddNewMovieAsync(MovieObject movie);
         /// <summary>
         /// Adds a new movie
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
-        Task<ApiResponse<Movie>> AddNewMovieAsync(Movie movie);
+        Task<ApiResponse<MovieDTO>> AddNewMovieAsync(MovieDTO movie);
 
         /// <summary>
         /// Add Movie Comment
@@ -38,13 +39,13 @@ namespace MovieMaster.Services
         /// </summary>
         /// <param name="slug"></param>
         /// <returns></returns>
-        Task<Movie> GetMovieBySlugAsync(string slug);
+        Task<MovieDTO?> GetMovieBySlugAsync(string slug);
 
         /// <summary>
         /// Gets all the movies
         /// </summary>
         /// <returns></returns>
-        Task<IReadOnlyList<Movie>> GetAllMoviesAsync();
+        Task<IReadOnlyList<MovieDTO>> GetAllMoviesAsync();
 
         /// <summary>
         /// Gets all the movie genres

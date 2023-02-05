@@ -12,6 +12,30 @@ namespace MovieMaster.Data.Database.Models
 		/// </summary>
 		public List<DbComment> Comments { get; set; } = new List<DbComment>();
 
+        public List<DbMovieGenre> MovieGenres { get; set; } = new List<DbMovieGenre>();
+
+
+
+        /// <summary>
+        /// Returns a DB movie object
+        /// </summary>
+        public static DbMovie FromMovieDTO(MovieDTO movieDTO)
+		{
+			return new DbMovie
+			{
+				Id = movieDTO.Id,
+				Name = movieDTO.Name,
+				Description = movieDTO.Description,
+				ReleaseDate = movieDTO.ReleaseDate,
+				TicketPrice = movieDTO.TicketPrice,
+				Country = movieDTO.Country,
+				Photo = movieDTO.Photo,
+				Rating = movieDTO.Rating,
+				Slug = movieDTO.Slug,
+				CreatedAt = movieDTO.CreatedAt,
+			};
+		}
+
 		/// <summary>
 		/// Returns a movie DTO
 		/// </summary>

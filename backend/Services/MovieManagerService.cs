@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using MovieMaster.Data.API.DTOs;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Database;
 using MovieMaster.Data.Database.Models;
@@ -78,13 +79,13 @@ namespace MovieMaster.Services
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
-        public async Task<ApiResponse<Movie>> AddNewMovieAsync(MovieObject movie)
+        public async Task<ApiResponse<MovieDTO>> AddNewMovieAsync(MovieObject movie)
         {
             try
             {
                 if (movie.Photo is null)
                 {
-                    return new ApiResponse<Movie>(default!)
+                    return new ApiResponse<MovieDTO>(default!)
                     {
                         Message = "Photo cannot be absent"
                     };
@@ -99,7 +100,7 @@ namespace MovieMaster.Services
                     var filestream = new FileStream(folder, FileMode.Create);
                     await movie.Photo.CopyToAsync(filestream);
 
-                    var _movie = new Movie
+                    var _movie = new MovieDTO
                     {
                         Photo = filename,
                         Name = movie.Name,
@@ -115,7 +116,7 @@ namespace MovieMaster.Services
                 }
                 else
                 {
-                    return new ApiResponse<Movie>(default!)
+                    return new ApiResponse<MovieDTO>(default!)
                     {
                         Message = "Empty file"
                     };
@@ -129,7 +130,7 @@ namespace MovieMaster.Services
                 logger.LogError(ex, "Unable to add a new movie");
             }
 
-            return new ApiResponse<Movie>(default!)
+            return new ApiResponse<MovieDTO>(default!)
             {
                 Message = "Couldn't create this movie"
             };
@@ -140,24 +141,42 @@ namespace MovieMaster.Services
         /// </summary>
         /// <param name="movie"></param>
         /// <returns></returns>
-        public async Task<ApiResponse<Movie>> AddNewMovieAsync(Movie movie)
+        public async Task<ApiResponse<MovieDTO>> AddNewMovieAsync(MovieDTO movie)
         {
             try
             {
                 if (await context.Movies.AnyAsync(x=> x.Name.ToLower() == movie.Name.ToLower()))
                 {
-                    return new ApiResponse<Movie>(data: null!)
+                    return new ApiResponse<MovieDTO>(data: null!)
                     {
                         Message = "Movie already exists"
                     };
                 }
                 // Due to postgres check
                 movie.ReleaseDate = DateTime.SpecifyKind(movie.ReleaseDate, DateTimeKind.Utc);
+                var result = await context.Movies.AddAsync(DbMovie.FromMovieDTO(movie));
+                // add the genres too if they don't exist and add the movie to the genre
+                foreach (var genre in movie.Genres)
+                {
+                    var _genre = await context.Genres.FirstOrDefaultAsync(x => x.Name.ToLower() == genre.Name.ToLower());
+                    if (_genre is null)
+                    {
+                        _genre = (await context.AddAsync(DbGenre.FromGenre(genre))).Entity;
+                    }
+                    // add the movie to the moviegenre table
+                    await context.AddAsync(new DbMovieGenre
+                    {
+                        MovieId = result.Entity.Id,
+                        GenreId = _genre.Id
+                    });
+                   
+                }
 
-                var result = await context.AddAsync(movie);
                 await context.SaveChangesAsync();
+                var res = result.Entity.ToMovieDTO();
+                res.Genres = movie.Genres;
 
-                return new ApiResponse<Movie>(data: result.Entity)
+                return new ApiResponse<MovieDTO>(data: res)
                 {
                     Message = "Created Successfully"
                 };
@@ -167,7 +186,7 @@ namespace MovieMaster.Services
                 logger.LogError(ex, "Unable to add a new movie");
             }
 
-            return new ApiResponse<Movie>(default!)
+            return new ApiResponse<MovieDTO>(default!)
             {
                 Message = "Couldn't create this movie"
             };
@@ -209,7 +228,7 @@ namespace MovieMaster.Services
                     };
                 }
 
-                var _comment = (DbComment)comment;
+                var _comment = DbComment.FromComment(comment);
                 _comment.Movie = movie;
 
                 var result = await context.Comments.AddAsync(_comment);
@@ -236,7 +255,7 @@ namespace MovieMaster.Services
         /// </summary>
         /// <param name="slug"></param>
         /// <returns></returns>
-        public async Task<Movie> GetMovieBySlugAsync(string slug)
+        public async Task<MovieDTO?> GetMovieBySlugAsync(string slug)
 		{
             try
             {
@@ -245,12 +264,34 @@ namespace MovieMaster.Services
                     return null!;
                 }
                 
+                var movie = await context.Movies
+                    .Include(x => x.Comments)
+                    .Include(x => x.MovieGenres)
+                    .ThenInclude(x => x.Genre)
+                    .FirstOrDefaultAsync(x => x.Slug.ToLower() == slug.ToLower());
 
-                var movie = await context.Movies.Where(x => x.Slug.ToLower() == slug.ToLower())
-                    .Include(x=> x.Comments)
-                    .FirstOrDefaultAsync();
+                if (movie is null)
+                {
+                    return null!;
+                }
 
-                return (Movie)movie!;
+                var _movie = movie.ToMovieDTO();
+                
+                _movie.Comments = movie.Comments.ConvertAll(x=> new Comment {
+                    Content = x.Content,
+                    CreatedAt = x.CreatedAt,
+                    Id = x.Id,
+                    Name = x.Name
+                });
+
+                _movie.Genres = movie.MovieGenres.ConvertAll(x=> new Genre
+                {
+                    Id = x.Genre.Id,
+                    Name = x.Genre.Name
+                });
+                
+                return _movie;
+
                 
             }
             catch (Exception ex)
@@ -265,23 +306,33 @@ namespace MovieMaster.Services
         /// Gets all the movies
         /// </summary>
         /// <returns></returns>
-        public async Task<IReadOnlyList<Movie>> GetAllMoviesAsync()
+        public async Task<IReadOnlyList<MovieDTO>> GetAllMoviesAsync()
         {
             try
             {
-                return await context.Movies.Select(x=> new Movie
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Country = x.Country,
-                    CreatedAt = x.CreatedAt,
-                    Description = x.Description,
-                    Photo = x.Photo,
-                    Rating = x.Rating,
-                    ReleaseDate = x.ReleaseDate,
-                    Slug = x.Slug,
-                    TicketPrice = x.TicketPrice
-                }).ToListAsync();
+                // get all the movies and their genres
+                var movies = await context.Movies
+                    .Include(x => x.MovieGenres)
+                    .ThenInclude(x => x.Genre)
+                    .Select(x => new MovieDTO
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description,
+                        Slug = x.Slug,
+                        ReleaseDate = x.ReleaseDate,
+                        TicketPrice = x.TicketPrice,
+                        Photo = x.Photo,
+                        Rating = x.Rating,
+                        Country = x.Country,
+                        Genres = x.MovieGenres.Select(x => new Genre
+                        {
+                            Id = x.Genre.Id,
+                            Name = x.Genre.Name,
+                            CreatedAt = x.Genre.CreatedAt
+                        }).ToList()
+                    }).ToListAsync();
+                
             }
             catch (Exception ex)
             {
@@ -300,6 +351,7 @@ namespace MovieMaster.Services
         {
             try
             {
+                
                 return await context.Genres.Select(x=> new Genre
                 {
                     Name = x.Name,
