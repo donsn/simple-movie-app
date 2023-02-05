@@ -8,7 +8,7 @@ Each of the following sections will walk you through the steps to get the app up
 You will need the following installed on your machine:
 * [Node.js](https://nodejs.org/en/)
 * [PostgreSQL](https://www.postgresql.org/)
-* [Dotnet Core](https://www.microsoft.com/net/download)
+* [.NET 7](https://www.microsoft.com/net/download)
 * [Yarn](https://yarnpkg.com/en/docs/install)
 
 ### Database
