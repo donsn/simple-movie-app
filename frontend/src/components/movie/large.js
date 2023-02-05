@@ -1,6 +1,5 @@
 import React from 'react';
 import { LargeMovieContainer, MovieDescription, MovieDescriptionContainer, MovieDetailsContainer, MoviePosterContainer, GridContainer, MetaDataContainer } from './styles';
-import {useAuthentication} from '../../hooks/auth';
 import { BASE_URL } from '../../api/base';
 import Comments from '../comment';
 
@@ -9,7 +8,6 @@ import Comments from '../comment';
  * @returns {JSX.Element}
  */
 export default function LargeMovieView({movie}) {
-  const {authenticated } = useAuthentication();
   return (
     <LargeMovieContainer>
       <GridContainer>
@@ -37,8 +35,7 @@ export default function LargeMovieView({movie}) {
         <p>{movie.country}</p>
       </MetaDataContainer>
       </GridContainer>
-      <Comments {...authenticated}>
-      </Comments>
+      <Comments comments={movie.comments}/>
     </LargeMovieContainer>
   );
 }
