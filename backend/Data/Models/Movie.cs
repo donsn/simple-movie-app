@@ -33,15 +33,6 @@ namespace MovieMaster.Data.Models
 		/// Country
 		/// </summary>
 		public string Country { get; set; } = default!;
-		/// <summary>
-		/// Genre
-		/// </summary>
-		public List<Genre> Genres { get; set; } = new List<Genre>();
-
-		/// <summary>
-		/// Movie Comments
-		/// </summary>
-		public List<Comment> Comments { get; set; } = new List<Comment>();
 
         /// <summary>
         /// Image of the movie

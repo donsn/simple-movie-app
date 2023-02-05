@@ -38,6 +38,8 @@
     <None Remove="Tools\" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="System.IdentityModel.Tokens.Jwt" />
+    <None Remove="Data\Database\Models\" />
+    <None Remove="Data\API\DTOs\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\" />
@@ -51,6 +53,8 @@
     <Folder Include="Tools\" />
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="Data\Database\Models\" />
+    <Folder Include="Data\API\DTOs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using MovieMaster.Data.Database.Models;
 using MovieMaster.Data.Models;
 
 namespace MovieMaster.Data.Database
@@ -12,39 +13,48 @@ namespace MovieMaster.Data.Database
 
         }
 
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<DbMovie> Movies { get; set; }
 
-        public DbSet<Genre> Genres { get; set; }
+        public DbSet<DbGenre> Genres { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<DbMovieGenre> MovieGenres { get; set; }
 
-        public DbSet<Comment> Comments { get; set; }
-        public Task<bool> AnyAsync { get; internal set; }
+        public DbSet<DbUser> Users { get; set; }
+
+        public DbSet<DbComment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Movie>(x =>
+            modelBuilder.Entity<DbMovie>(x =>
             {
                 x.HasKey(p => p.Id);
                 x.Property(p => p.Name).IsRequired();
+                x.HasMany<DbMovieGenre>().WithOne().HasForeignKey(f => f.MovieId).OnDelete(DeleteBehavior.Cascade);
+                x.HasMany(c=> c.Comments).WithOne(o => o.Movie).OnDelete(DeleteBehavior.Cascade);
                 x.HasIndex(x => x.Name);
-                x.HasMany(x=> x.Genres).WithMany(x=> x.Movies);
-                x.HasMany(x => x.Comments).WithOne(x => x.Movie);
+                x.HasIndex(x => x.Slug);
             });
 
-            modelBuilder.Entity<Genre>(x =>
+            modelBuilder.Entity<DbGenre>(x =>
+            {
+                x.HasKey(p => p.Id);
+                x.HasIndex(x => x.Name).IsUnique();
+                x.HasMany<DbMovieGenre>().WithOne().HasForeignKey(f => f.GenreId).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<DbMovieGenre>(x =>
+            {
+                x.HasKey(p => new {p.MovieId, p.GenreId});
+            });
+
+
+            modelBuilder.Entity<DbComment>(x =>
             {
                 x.HasKey(p => p.Id);
                 x.HasIndex(x => x.Name);
             });
 
-            modelBuilder.Entity<Comment>(x =>
-            {
-                x.HasKey(p => p.Id);
-                x.HasIndex(x => x.Name);
-            });
-
-            modelBuilder.Entity<User>(x =>
+            modelBuilder.Entity<DbUser>(x =>
             {
                 x.HasKey(p => p.Id);
                 x.HasIndex(x => x.Username);

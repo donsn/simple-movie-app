@@ -12,7 +12,6 @@ namespace MovieMaster.Data.Models
 
 		public required string Content { get; set; }
 
-		public virtual Movie Movie { get; set; } = default!;
 	}
 }
 

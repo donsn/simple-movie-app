@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Database;
+using MovieMaster.Data.Database.Models;
 using MovieMaster.Data.Models;
 
 namespace MovieMaster.Services
@@ -104,11 +105,9 @@ namespace MovieMaster.Services
                         Name = movie.Name,
                         Description = movie.Description,
                         Slug = movie.Slug,
-                        Comments = movie.Comments,
                         ReleaseDate = movie.ReleaseDate,
                         TicketPrice = movie.TicketPrice,
                         Country= movie.Country,
-                        Genres= movie.Genres,
                         Rating = movie.Rating
                     };
 
@@ -184,6 +183,13 @@ namespace MovieMaster.Services
         {
             try
             {
+                if (comment is null)
+                {
+                    return new ApiResponse<bool>(false)
+                    {
+                        Message = "Please include a comment"
+                    };
+                }
                 if (await context.Comments.AnyAsync(x=> x.Movie.Id == Id
                 && x.CreatedAt > DateTime.UtcNow.AddMinutes(5)
                 && x.Content.ToLower() == comment.Content.ToLower()))
@@ -203,8 +209,10 @@ namespace MovieMaster.Services
                     };
                 }
 
-                comment.Movie = movie;
-                var result = await context.Comments.AddAsync(comment);
+                var _comment = (DbComment)comment;
+                _comment.Movie = movie;
+
+                var result = await context.Comments.AddAsync(_comment);
                 await context.SaveChangesAsync();
 
                 return new ApiResponse<bool>(true)
@@ -239,10 +247,10 @@ namespace MovieMaster.Services
                 
 
                 var movie = await context.Movies.Where(x => x.Slug.ToLower() == slug.ToLower())
-                    .Include(x=> x.Genres).Include(x=> x.Comments)
+                    .Include(x=> x.Comments)
                     .FirstOrDefaultAsync();
 
-                return movie!;
+                return (Movie)movie!;
                 
             }
             catch (Exception ex)
@@ -261,7 +269,19 @@ namespace MovieMaster.Services
         {
             try
             {
-                return await context.Movies.Include(x => x.Genres).ToListAsync();
+                return await context.Movies.Select(x=> new Movie
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Country = x.Country,
+                    CreatedAt = x.CreatedAt,
+                    Description = x.Description,
+                    Photo = x.Photo,
+                    Rating = x.Rating,
+                    ReleaseDate = x.ReleaseDate,
+                    Slug = x.Slug,
+                    TicketPrice = x.TicketPrice
+                }).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -280,7 +300,12 @@ namespace MovieMaster.Services
         {
             try
             {
-                return await context.Genres.ToListAsync();
+                return await context.Genres.Select(x=> new Genre
+                {
+                    Name = x.Name,
+                    Id= x.Id,
+                    CreatedAt = x.CreatedAt
+                }).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -298,11 +323,11 @@ namespace MovieMaster.Services
         {
             try
             {
-                return await context.Movies.FindAsync(id);
+                return (await context.Movies.FindAsync(id));
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Unable to get all the genres");
+                logger.LogError(ex, "Unable to get movie by id");
             }
             return default!;
         }
