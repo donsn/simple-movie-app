@@ -1,5 +1,8 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MovieMaster.Data;
 using MovieMaster.Data.Database;
 using MovieMaster.Services;
@@ -21,7 +24,26 @@ namespace Microsoft.Extensions.DependencyInjection
 				options.UseNpgsql(configuration["DATABASE_URL"]);
 			});
 
-			services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters =
+                          new TokenValidationParameters
+                          {
+                              ValidIssuers = new List<string> { "simple-app" },
+                              ValidateIssuer = true,
+                              ValidateIssuerSigningKey = true,
+                              ValidateAudience = true,
+                              ValidAudience = "simple-app-frontend",
+                              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SECURE_JWT_TOKEN"))
+                          };
+                        options.SaveToken = true;
+                    });
+            services.AddAuthorization();
+
+
+            services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IMovieManagerService, MovieManagerService>();
 			services.AddCors();
             return services;
