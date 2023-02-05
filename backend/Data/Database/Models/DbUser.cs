@@ -3,10 +3,23 @@ using MovieMaster.Data.Models;
 
 namespace MovieMaster.Data.Database.Models
 {
-	public class DbUser : User
+    /// <inheritdoc />
+    public class DbUser : User
 	{
-		public DbUser()
+		/// <summary>
+		/// Converts this DB entity to a user object
+		/// </summary>
+		/// <returns></returns>
+		public User ToUser()
 		{
+			return new User
+			{
+				Name = this.Name,
+				Username = this.Username,
+				// Never return the password
+				PasswordHash = "",
+				CreatedAt = this.CreatedAt
+			};
 		}
 	}
 }

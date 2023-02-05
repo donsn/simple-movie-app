@@ -51,10 +51,16 @@ namespace MovieMaster.Services
                     };
                 }
                 user.PasswordHash = PasswordHasher.HashPasword(user.PasswordHash);
-                var result = await context.Users.AddAsync((DbUser)user);
+                var _user = new DbUser
+                {
+                    PasswordHash = user.PasswordHash,
+                    Name = user.Name,
+                    Username = user.Name
+                };
+                var result = await context.Users.AddAsync(_user);
                 await context.SaveChangesAsync();
 
-                return new ApiResponse<User>(result.Entity)
+                return new ApiResponse<User>(result.Entity.ToUser())
                 {
                     Message = "Successful"
                 };

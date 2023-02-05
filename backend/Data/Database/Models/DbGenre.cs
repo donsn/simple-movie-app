@@ -3,7 +3,8 @@ using MovieMaster.Data.Models;
 
 namespace MovieMaster.Data.Database.Models
 {
-	public class DbGenre : Genre
+    /// <inheritdoc />
+    public class DbGenre : Genre
 	{
 
 	}
