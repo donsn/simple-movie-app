@@ -3,7 +3,8 @@ using MovieMaster.Data.Models;
 
 namespace MovieMaster.Data.API.DTOs
 {
-	public class MovieDTO : Movie
+    /// <inheritdoc />
+    public class MovieDTO : Movie
 	{
         /// <summary>
         /// Genre

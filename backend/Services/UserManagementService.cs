@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MovieMaster.Data.API.Models;
 using MovieMaster.Data.Database;
+using MovieMaster.Data.Database.Models;
 using MovieMaster.Data.Models;
 using MovieMaster.Tools;
 
@@ -50,7 +51,7 @@ namespace MovieMaster.Services
                     };
                 }
                 user.PasswordHash = PasswordHasher.HashPasword(user.PasswordHash);
-                var result = await context.Users.AddAsync(user);
+                var result = await context.Users.AddAsync((DbUser)user);
                 await context.SaveChangesAsync();
 
                 return new ApiResponse<User>(result.Entity)
