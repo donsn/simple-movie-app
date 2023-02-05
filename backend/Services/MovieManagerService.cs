@@ -161,13 +161,15 @@ namespace MovieMaster.Services
                     var _genre = await context.Genres.FirstOrDefaultAsync(x => x.Name.ToLower() == genre.Name.ToLower());
                     if (_genre is null)
                     {
-                        _genre = (await context.AddAsync(DbGenre.FromGenre(genre))).Entity;
+                        _genre = (await context.Genres.AddAsync(DbGenre.FromGenre(genre))).Entity;
                     }
                     // add the movie to the moviegenre table
                     await context.AddAsync(new DbMovieGenre
                     {
-                        MovieId = result.Entity.Id,
-                        GenreId = _genre.Id
+                        //MovieId = result.Entity.Id,
+                        Movie = result.Entity,
+                        //GenreId = _genre.Id,
+                        Genre = _genre
                     });
                    
                 }
@@ -332,6 +334,7 @@ namespace MovieMaster.Services
                             CreatedAt = x.Genre.CreatedAt
                         }).ToList()
                     }).ToListAsync();
+                return movies;
                 
             }
             catch (Exception ex)
