@@ -6,7 +6,7 @@ namespace MovieMaster.Data.Database.Models
     /// <inheritdoc />
     public class DbGenre : Genre
 	{
-        public List<DbMovieGenre> MovieGenres { get; set; } = new List<DbMovieGenre>();
+        public virtual List<DbMovieGenre> MovieGenres { get; set; } = new List<DbMovieGenre>();
 
         /// <summary>
         /// Returns a DB Genre object

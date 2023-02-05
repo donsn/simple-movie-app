@@ -10,9 +10,9 @@ namespace MovieMaster.Data.Database.Models
 		/// <summary>
 		/// Movie Comments
 		/// </summary>
-		public List<DbComment> Comments { get; set; } = new List<DbComment>();
+		public virtual List<DbComment> Comments { get; set; } = new List<DbComment>();
 
-        public List<DbMovieGenre> MovieGenres { get; set; } = new List<DbMovieGenre>();
+        public virtual List<DbMovieGenre> MovieGenres { get; set; } = new List<DbMovieGenre>();
 
 
 

@@ -29,7 +29,7 @@ namespace MovieMaster.Data.Database
             {
                 x.HasKey(p => p.Id);
                 x.Property(p => p.Name).IsRequired();
-                x.HasMany<DbMovieGenre>().WithOne().HasForeignKey(f => f.MovieId).OnDelete(DeleteBehavior.Cascade);
+                x.HasMany(x=> x.MovieGenres).WithOne(x=> x.Movie).HasForeignKey(f => f.MovieId).OnDelete(DeleteBehavior.Cascade);
                 x.HasMany(c=> c.Comments).WithOne(o => o.Movie).OnDelete(DeleteBehavior.Cascade);
                 x.HasIndex(x => x.Name);
                 x.HasIndex(x => x.Slug);
@@ -39,7 +39,7 @@ namespace MovieMaster.Data.Database
             {
                 x.HasKey(p => p.Id);
                 x.HasIndex(x => x.Name).IsUnique();
-                x.HasMany<DbMovieGenre>().WithOne().HasForeignKey(f => f.GenreId).OnDelete(DeleteBehavior.Cascade);
+                x.HasMany(x => x.MovieGenres).WithOne(x => x.Genre).HasForeignKey(f => f.GenreId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<DbMovieGenre>(x =>
