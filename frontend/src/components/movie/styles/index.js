@@ -52,6 +52,7 @@ export const MovieTitle = styled.h2`
 `;
 
 export const MoviePosterContainer = styled.div`
+    min-width: 200px;
     max-width: ${props => props.large ? '450px' : '300px'};
     display: flex;
     align-items: center;
