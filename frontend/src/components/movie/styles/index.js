@@ -11,6 +11,7 @@ export const SmallMovieContainer = styled(Link)`
     padding: 1rem;
     border-radius: 0.5rem;
     transition: all 0.5s ease-in-out;
+    min-height: 600px;
     
     &:hover {
         scale: 1.01;
