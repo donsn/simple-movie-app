@@ -72,3 +72,19 @@ export const MovieDetailsContainer = styled.div`
     width: 100%;
     padding: 0.5rem;
 `;
+
+export const GridContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    width: 100%;
+`;
+
+export const  MetaDataContainer = styled.div`
+    margin-top: 1rem;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between; */
+    width: 100%;
+    padding: 0.5rem;
+`;

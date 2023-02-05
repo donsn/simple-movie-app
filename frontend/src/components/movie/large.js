@@ -1,7 +1,8 @@
 import React from 'react';
-import { LargeMovieContainer, MovieDescription, MovieDescriptionContainer, MovieDetailsContainer, MoviePosterContainer } from './styles';
+import { LargeMovieContainer, MovieDescription, MovieDescriptionContainer, MovieDetailsContainer, MoviePosterContainer, GridContainer, MetaDataContainer } from './styles';
 import {useAuthentication} from '../../hooks/auth';
 import { BASE_URL } from '../../api/base';
+import Comments from '../comment';
 
 /**
  * Renders a large movie view
@@ -11,6 +12,7 @@ export default function LargeMovieView({movie}) {
   const {authenticated } = useAuthentication();
   return (
     <LargeMovieContainer>
+      <GridContainer>
       <MovieDetailsContainer>
         <h1>{movie.name}</h1>
         <MoviePosterContainer large>
@@ -22,9 +24,9 @@ export default function LargeMovieView({movie}) {
           </MovieDescription>
         </MovieDescriptionContainer>
       </MovieDetailsContainer>
-      <div>
+      <MetaDataContainer>
         <h2>Genre</h2>
-        <p>{movie.genres.map(x=> x.name)}</p>
+        <p>{movie.genres.map(x=> x.name).join(', ')}</p>
         <h2>Released</h2>
         <p>{new Date(movie.releaseDate).getFullYear()}</p>
         <h2>Rating</h2>
@@ -33,13 +35,10 @@ export default function LargeMovieView({movie}) {
         <p>{movie.ticketPrice}</p>
         <h2>Country</h2>
         <p>{movie.country}</p>
-      </div>
-      <div>
-        <h2>Comments</h2>
-        {authenticated && (
-          <button type="button">Comment</button>
-        )}
-      </div>
+      </MetaDataContainer>
+      </GridContainer>
+      <Comments {...authenticated}>
+      </Comments>
     </LargeMovieContainer>
   );
 }
