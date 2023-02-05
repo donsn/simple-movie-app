@@ -8,11 +8,39 @@ import { Form } from '../../components/forms';
 import { InputField } from '../../components/inputs';
 import { Button } from '../../components/buttons';
 import { useAuthentication } from '../../hooks/auth';
+import { useAddCommentToMovieMutation } from '../../api/movies';
+import { useFormik } from 'formik';
+import { showMessage, MessageTypes } from '../../components/toast';
 
 export default function SingleMoviePage() {
   const { slug } = useParams();
-  const { data: movie, isLoading } = useGetMovieBySlugQuery(slug);
+  const { data: movie, isLoading, refetch } = useGetMovieBySlugQuery(slug);
   const { authenticated } = useAuthentication();
+  const [addComment, { isLoading: isCommentLoading }] = useAddCommentToMovieMutation();
+
+  const handleComment = (values, action) => {
+    addComment({ movieId: movie.id, comment: values })
+      .unwrap()
+      .then((res) => {
+        if (res.status) {
+          refetch();
+          action.resetForm();
+        }
+        else {
+          showMessage(MessageTypes.ERROR, res.message);
+        }
+      })
+  }
+
+
+  const formhandler = useFormik({
+    initialValues: {
+      name: '',
+      content: '',
+    },
+    onSubmit: handleComment
+  });
+
 
   if (isLoading) {
     return <FlexContainer>
@@ -25,11 +53,13 @@ export default function SingleMoviePage() {
       <LargeMovieView movie={movie} />
       <div>
 
-        {authenticated && (<Form>
+        {authenticated && (<Form onSubmit={formhandler.handleSubmit}>
           <h2>Add Comment</h2>
-          <InputField name="name" label="Name" type="text" required />
-          <InputField name="comment" label="Comment" type="text" required />
-          <Button type="submit">Submit</Button>
+          <InputField name="name" label="Name" type="text" required onChange={formhandler.handleChange} value={formhandler.values.name} />
+          <InputField name="content" label="Comment" type="text" required onChange={formhandler.handleChange} value={formhandler.values.content} />
+          <Button type="submit" disabled={isCommentLoading}>{
+            isCommentLoading ? 'Adding Comment...' : 'Add Comment'
+          }</Button>
         </Form>)}
 
         {!authenticated &&

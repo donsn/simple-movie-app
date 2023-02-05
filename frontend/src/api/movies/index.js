@@ -6,11 +6,12 @@ export const moviesApi = createApi({
     reducerPath: 'moviesApi',
     baseQuery: fetchBaseQuery({
         baseUrl: BASE_URL,
-        prepareHeaders: (headers) => {
-            const access_token = retrieveContent("x_token");
+        prepareHeaders: async (headers) => {
+            const access_token = await retrieveContent("x-token");
+
             headers.set("content-type", "application/json");
             if (access_token) {
-                headers.set("authorization", `Bearer ${access_token}`);
+                headers.set("Authorization", `Bearer ${access_token}`);
             }
             return headers;
         }
@@ -25,7 +26,7 @@ export const moviesApi = createApi({
         }),
         addCommentToMovie: builder.mutation({
             query: (payload) => ({
-                url: `api/movies/${payload.movieId}/comments`,
+                url: `api/movies/${payload.movieId}/comment`,
                 method: 'POST',
                 body: payload.comment,
             }),
@@ -56,4 +57,5 @@ export const {
     useGetMovieGenresQuery,
     useGetMovieBySlugQuery,
     useCreateMovieMutation,
+    useAddCommentToMovieMutation,
 } = moviesApi;

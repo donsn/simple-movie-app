@@ -13,12 +13,13 @@ export default function Comments({comments = []}) {
   return (
     <Container>
         <CommentContainer>
+            <h2>Comments</h2>
             {comments.map(comment => {
                 return (
                     <div key={comment.id}>
                         <hr/>
-                        <h5>{comment.name}</h5>
-                        <p>{comment.comment}</p>
+                        <h5>{comment.name} (at {new Date(comment.createdAt).toTimeString()})</h5>
+                        <p>{comment.content}</p>
                     </div>
                 )
             })}

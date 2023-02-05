@@ -19,7 +19,7 @@ export const CommentContainer = styled.div`
 
     h5{
         color: #1F2041;
-        font-size: 1rem;
+        font-size: 0.65rem;
     }
     p {
         color: #1F2041;
